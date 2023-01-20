@@ -1,0 +1,41 @@
+﻿body {
+    background-color: #e0ffff;
+}
+
+.main {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.button {
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #ffffff;
+    background-color: #a020f0;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+}
+
+    .button:hover {
+        background-color: #FF00FF
+    }
+
+    .button:active {
+        background-color: #8B008B;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
+
+.line {
+    padding: 15px 22px;
+    font-size: 18px;
+    background-color: #ffffff;
+}

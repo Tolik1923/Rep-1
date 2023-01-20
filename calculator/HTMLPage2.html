@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href=".\css\style.css" rel="stylesheet" />
+    <title>Lab-5</title>
+</head>
+
+<body>
+
+    <form name="calc" class="wrapper">
+        <table class="main">
+            <tr class="display">
+                <td colspan="4"><input type="text" id="input" placeholder="0" name="input" class="line"></td>
+            </tr>
+            <tr class="buttons">
+                <td><input type="button" value="1" class="button" OnClick="calc.input.value += '1'"></td>
+                <td><input type="button" value="2" class="button" OnClick="calc.input.value += '2'"></td>
+                <td><input type="button" value="3" class="button" OnClick="calc.input.value += '3'"></td>
+                <td><input type="button" value="+" class="button" OnClick="calc.input.value += '+'"></td>
+            </tr>
+            <tr class="buttons">
+                <td><input type="button" value="4" class="button" OnClick="calc.input.value += '4'"></td>
+                <td><input type="button" value="5" class="button" OnClick="calc.input.value += '5'"></td>
+                <td><input type="button" value="6" class="button" OnClick="calc.input.value += '6'"></td>
+                <td><input type="button" value="-" class="button" OnClick="calc.input.value += '-'"></td>
+            </tr>
+            <tr class="buttons">
+                <td><input type="button" value="7" class="button" OnClick="calc.input.value += '7'"></td>
+                <td><input type="button" value="8" class="button" OnClick="calc.input.value += '8'"></td>
+                <td><input type="button" value="9" class="button" OnClick="calc.input.value += '9'"></td>
+                <td><input type="button" value="x" class="button" OnClick="calc.input.value += '*'"></td>
+            </tr>
+            <tr class="buttons">
+                <td><input type="reset" value="c" class="button" OnClick="calc.input.value = ''"></td>
+                <td><input type="button" value="0" class="button" OnClick="calc.input.value += '0'"></td>
+                <td><input type="button" value="=" class="button" OnClick="calc.input.value = eval(calc.input.value)"></td>
+                <td><input type="button" value="/" class="button" OnClick="calc.input.value += '/'"></td>
+            </tr>
+            <tr class="buttons">
+                <td><input type="button" value="(" class="button" OnClick="calc.input.value += '('"></td>
+                <td><input type="button" value=")" class="button" OnClick="calc.input.value += ')'"></td>
+                <td colspan="2"><input type="button" value="memor" class="button" OnClick="calc.input.value += inputVal" OndblClick="inputVal = prompt()"></td>
+            </tr>
+            </table>
+    </form>
+</body>
+</html>
