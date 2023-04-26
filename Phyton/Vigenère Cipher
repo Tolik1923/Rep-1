@@ -1,0 +1,122 @@
+import re
+global tabula_recta,english_ic
+
+#letter mapping 
+english_lower='abcdefghijklmnopqrstuvwxyz'
+
+#create the Wigener table
+tabula_recta=[english_lower[i:]+english_lower[:i] for i in range(len(english_lower))]
+
+#English index of confidence
+english_ic=0.065
+
+keyword='nonsense'
+plaintext='DAnvillewasbornonAugustthesonofLouisdeLaRochefoucauldMarquisdeRoyeadistantcousinoftheDukesofLaRochefoucauldandMartheDucasseHemarriedMarieLouiseNicoledeLaRochefoucaulddaughterofAlexandreDukedeLaRochefoucauldAlexandrehadnosurvivingsonsandexceptionallygainedthepermissionofthePopeandtheFrenchKingtohandtheducaltitlethroughthefemalelinebutoneoftheconditionswasthathisdaughtermustmarryaLaRochefoucauldJeanBaptistedeLaRochfoucaulddeRoyewascreatedDucDAnvilleonFebruaryafewdaysbeforethemarriageHewasanofficerinthegalleycorpscorpsdesgalèrestransferringintotheFrenchnavyinandhewasappointedlieutenantgeneralofinJanuaryDAnvilleandMarieLouiseNicolehadthreedaughtersandonesonLouisAlexandrewhosucceededtothetitleDucDAnvilleinonhisfathersdeathAndonhisgrandfathersdeathinhebecameDucdeLaRochefoucauld'
+print(plaintext)
+
+#encryption
+def vigenere_cipher_encrypt(plaintext,keyword):
+  ciphertext = ""
+  j = 0
+  for i in range(0, len(plaintext)):
+    y = english_lower.find(plaintext[i].lower())
+    y += english_lower.find(keyword[j])
+    f = english_lower[y % 26]
+    ciphertext += english_lower[y % 26]
+    if j == (len(keyword) - 1):
+      j = 0
+    else:
+      j += 1    
+  return ciphertext
+  
+ciphertext=vigenere_cipher_encrypt(plaintext,keyword)
+print(ciphertext)
+
+#decryption
+def vigenere_cipher_decrypt(ciphertext,keyword):
+  plaintext = ""
+  j = 0
+  for i in range(0, len(ciphertext)):
+    y = 26
+    y += english_lower.find(ciphertext[i].lower())
+    y -= english_lower.find(keyword[j])
+    f = english_lower[y % 26]
+    plaintext += english_lower[y % 26]
+    if j == (len(keyword) - 1):
+      j = 0
+    else:
+      j += 1   
+  return plaintext
+  
+plaintext = vigenere_cipher_decrypt(ciphertext,keyword)
+print(plaintext)
+
+#calculate the frequency of n grams in the encrypted text
+def compute_letter_freq(ciphertext,N):
+
+    #split the text into characters
+    total=[i[j:j+N] for i in ciphertext.split() for j in range(len(i)-N+1) if len(i)>N]
+
+
+    D={}
+    for i in set(total):
+        D[i]=total.count(i)
+    D=dict(sorted(D.items(),key=lambda x:x[1],reverse=True))
+    
+    return D
+    
+    #calculation index of confidence
+def compute_ic(ciphertext):
+
+    index_of_confidence=0
+    for i in set(ciphertext):
+        index_of_confidence+=ciphertext.count(i)/len(ciphertext)*(ciphertext.count(i)-1)/(len(ciphertext)-1)
+        
+    return index_of_confidence
+    
+#friedman test to determine the possible length of a keyword
+def friedman_test(language_ic,random_ic,ciphertext):
+
+    numerator=(language_ic-random_ic)*len(ciphertext)
+    denominator=(len(ciphertext)-1)*compute_ic(ciphertext)-random_ic*len(ciphertext)+language_ic
+    return numerator/denominator
+    
+ #Random ic for English which contains 26 letters
+global random_ic
+random_ic=1/26
+
+#The open text IC is similar to the general case of the English language, which is 0.065.
+compute_ic(''.join(re.findall('\w+',plaintext)))
+
+#Key length
+friedman_test(english_ic,random_ic,ciphertext)
+
+#Length of the key from the result of the Friedman test
+key_length=4
+
+#now cryptanalysis consists of breaking 8 different Caesar ciphers
+
+def decrypt(key_length, ciphertext): 
+  potential_key = ''
+  cipher_matrix = []
+  for i in range(0, key_length):
+    row = ''
+    j = i
+    while j < len(ciphertext):
+      row += ciphertext[j]
+      j += key_length
+    cipher_matrix.append(row)
+
+  for j in range(0, key_length):
+    row = []
+    for i in english_lower:
+      row.append(cipher_matrix[j].count(i))
+    potential_key += english_lower[row.index(max(row))]
+
+  return potential_key
+  
+#The key doesn't have to be exact, but it should be close enough
+potential_key = decrypt(key_length, ciphertext)
+
+print(f'The key word could be {potential_key}')
+print(f'The real key word is {keyword}')
