@@ -1,0 +1,92 @@
+text = "DAnville was born on 17 August 1709, the son of Louis de La Rochefoucauld, Marquis de Roye, a distant cousin of the Dukes of La Rochefoucauld and Marthe Ducasse. He married Marie-Louise-Nicole de La Rochefoucauld, daughter of Alexandre, Duke de La Rochefoucauld. Alexandre had no surviving sons and exceptionally gained the permission of the Pope and the French King to hand the ducal title through the female line, but one of the conditions was that his daughter must marry a La Rochefoucauld. Jean-Baptiste de La Rochfoucauld de Roye was created Duc DAnville on 15 February 1732, a few days before the marriage. He was an officer in the galley corps (corps des galères), transferring into the French navy in 1734, and he was appointed lieutenant general of in January 1745.[1] DAnville and Marie-Louise-Nicole had three daughters and one son, Louis Alexandre, who succeeded to the title Duc DAnville in 1746 on his fathers death. And on his grandfathers death in 1762, he became Duc de La Rochefoucauld."
+key = "locate"   
+alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" 
+
+#Function for printing permutation matrix
+def print_matrix(matrix, matrix_row):
+  for i in range(0, matrix_row):
+    print(matrix[i])
+
+
+#Encryption
+def encryptMessage(msg, key):
+  import random
+  x = 0
+  y = 0
+  q = 0
+  k = []
+  cipher_text = ''
+  cipher_matrix = []
+
+  x = len(msg) % len(key)
+  for i in range(0, x):
+    msg += " "
+
+  key = key.upper()
+  for i in key:
+    k.append(alpha.index(i))
+
+  for i in range(0, len(k)):
+    y = k.index(min(k))
+    k[k.index(min(k))] = 30
+    while y < len(msg):
+      cipher_text +=  msg[y]
+      y += len(k)
+
+  matrix_row = len(msg) // len(key)
+  for i in range (0, matrix_row):
+    row = []
+    cipher_row =[]
+
+    for j in range (0, len(key)):
+      row.append(msg[q])
+      q += 1
+
+    key = key.upper()
+    k = []
+    for i in key:
+      k.append(alpha.index(i))
+
+    for i in range(0, len(k)):
+      y = k.index(min(k))
+      k[k.index(min(k))] = 30
+      cipher_row.append(row[y])
+    cipher_matrix.append(cipher_row)
+
+  return cipher_text, cipher_matrix, matrix_row
+  
+cipher_text, cipher_matrix, matrix_row = encryptMessage(text, key)
+print_matrix(cipher_matrix, matrix_row)
+print()
+print(cipher_text)
+
+#Deciphering
+def decryptMessage(cipher, key):
+  q = 0
+  x = 0
+  decrypt = ''
+  matrix_row = len(cipher) // len(key)
+  key = key.upper()
+  decr_matrix = [[0 for x in range(0, len(key))] for y in range(0, matrix_row)]
+
+  key = key.upper()
+  k = []
+  for i in key:
+    k.append(alpha.index(i))
+
+  for q in range(0, len(key)):
+    y = k.index(min(k))
+    k[k.index(min(k))] = 30
+    for i in range(0, matrix_row):
+      decr_matrix[i][y] = cipher[x]
+      x += 1
+
+  for i in range(0, matrix_row):
+    for j in range(0, len(key)):
+      decrypt += decr_matrix[i][j]
+  
+  return decrypt, decr_matrix, matrix_row
+  
+decrypt, decr_matrix, matrix_row = decryptMessage(cipher_text, key)
+print(decrypt)
+print_matrix(decr_matrix, matrix_row)
