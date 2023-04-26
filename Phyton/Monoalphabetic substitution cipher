@@ -1,9 +1,11 @@
+#Initial data
 alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 index_e = 4
 
 text = "DAnville was born on 17 August 1709, the son of Louis de La Rochefoucauld, Marquis de Roye, a distant cousin of the Dukes of La Rochefoucauld and Marthe Ducasse. He married Marie-Louise-Nicole de La Rochefoucauld, daughter of Alexandre, Duke de La Rochefoucauld. Alexandre had no surviving sons and exceptionally gained the permission of the Pope and the French King to hand the ducal title through the female line, but one of the conditions was that his daughter must marry a La Rochefoucauld. Jean-Baptiste de La Rochfoucauld de Roye was created Duc DAnville on 15 February 1732, a few days before the marriage. He was an officer in the galley corps (corps des galères), transferring into the French navy in 1734, and he was appointed lieutenant general of in January 1745.[1] DAnville and Marie-Louise-Nicole had three daughters and one son, Louis Alexandre, who succeeded to the title Duc DAnville in 1746 on his fathers death. And on his grandfathers death in 1762, he became Duc de La Rochefoucauld."
 key = 13
 
+# This function takes a plaintext message as input and returns a ciphertext message using the monoalphabetic substitution cipher.
 def encode(message, key):
    cyphertext = ''
    for i in range(0, len(message)):
@@ -21,6 +23,7 @@ def encode(message, key):
 cyphertext = encode(text, key)
 print(cyphertext)
 
+#Frequency analysis
 def countLetters(message):
   letters_frequencies = []
   for i in alpha:
@@ -43,6 +46,7 @@ def histo_plot(data):
     
 histo_plot(letters_frequencies)
 
+#Deciphering the message
 def decode(secret, letter_index):
    plaintext = ""
    y = alpha.index("E")
