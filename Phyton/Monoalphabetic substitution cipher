@@ -1,0 +1,63 @@
+alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+index_e = 4
+
+text = "DAnville was born on 17 August 1709, the son of Louis de La Rochefoucauld, Marquis de Roye, a distant cousin of the Dukes of La Rochefoucauld and Marthe Ducasse. He married Marie-Louise-Nicole de La Rochefoucauld, daughter of Alexandre, Duke de La Rochefoucauld. Alexandre had no surviving sons and exceptionally gained the permission of the Pope and the French King to hand the ducal title through the female line, but one of the conditions was that his daughter must marry a La Rochefoucauld. Jean-Baptiste de La Rochfoucauld de Roye was created Duc DAnville on 15 February 1732, a few days before the marriage. He was an officer in the galley corps (corps des galères), transferring into the French navy in 1734, and he was appointed lieutenant general of in January 1745.[1] DAnville and Marie-Louise-Nicole had three daughters and one son, Louis Alexandre, who succeeded to the title Duc DAnville in 1746 on his fathers death. And on his grandfathers death in 1762, he became Duc de La Rochefoucauld."
+key = 13
+
+def encode(message, key):
+   cyphertext = ''
+   for i in range(0, len(message)):
+     x = 0
+     x = alpha.find(message[i].upper())
+     if x == (-1):
+       cyphertext += message[i]
+     else:
+       x += key 
+       if x >= len(alpha):
+         x -= len(alpha)
+       cyphertext += alpha[x]
+   return cyphertext 
+   
+cyphertext = encode(text, key)
+print(cyphertext)
+
+def countLetters(message):
+  letters_frequencies = []
+  for i in alpha:
+    letters_frequencies.append(message.count(i))
+  y = max(letters_frequencies)
+  letter_index = letters_frequencies.index(y)
+  most_freq_letter = alpha[letter_index]
+  return letters_frequencies, most_freq_letter, letter_index
+  
+letters_frequencies, most_freq_letter, letter_index= countLetters(cyphertext) 
+print(letters_frequencies)
+print(most_freq_letter)
+print(letter_index)
+
+import matplotlib.pyplot as plt
+def histo_plot(data):
+    plt.xlabel("Letters")
+    plt.ylabel('Frequency')
+    plt.bar(list(alpha), letters_frequencies)
+    
+histo_plot(letters_frequencies)
+
+def decode(secret, letter_index):
+   plaintext = ""
+   y = alpha.index("E")
+   key = letter_index - y
+   for i in range(0, len(secret)):
+     x = 0
+     x = alpha.find(secret[i])
+     if x == (-1):
+       plaintext += secret[i]
+     else:
+       x -= key 
+       if x < 0:
+         x += len(alpha)
+       plaintext += alpha[x]
+   return plaintext
+  
+plaintext = decode(cyphertext, letter_index)
+print(plaintext)
